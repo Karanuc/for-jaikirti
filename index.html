@@ -1,0 +1,353 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>I am sorry ♡</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --deep: #062a28;
+      --ink: #173d35;
+      --paper: #fbfff8;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: "DM Sans", sans-serif;
+      background: var(--deep);
+    }
+
+    .scene {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+      padding: 74px 20px 85px;
+      background:
+        radial-gradient(circle at 14% 13%, rgba(130,194,157,.28), transparent 26%),
+        radial-gradient(circle at 86% 78%, rgba(213,181,107,.16), transparent 24%),
+        linear-gradient(135deg, #052b29 0%, #0d5446 49%, #123a36 100%);
+    }
+
+    .scene::before,
+    .scene::after {
+      content: "";
+      position: absolute;
+      width: 480px;
+      height: 480px;
+      border: 1px solid rgba(222,246,219,.12);
+      border-radius: 50%;
+    }
+
+    .scene::before {
+      top: -275px;
+      left: -170px;
+      box-shadow: 0 0 0 55px rgba(226,247,223,.035), 0 0 0 112px rgba(226,247,223,.025);
+    }
+
+    .scene::after {
+      right: -260px;
+      bottom: -315px;
+      box-shadow: 0 0 0 55px rgba(226,247,223,.035), 0 0 0 112px rgba(226,247,223,.025);
+    }
+
+    .music-button {
+      position: fixed;
+      z-index: 5;
+      top: 22px;
+      right: 26px;
+      padding: 11px 16px;
+      border: 1px solid rgba(228,246,222,.38);
+      border-radius: 999px;
+      color: #f3fff0;
+      background: rgba(3,43,39,.4);
+      box-shadow: 0 8px 26px rgba(0,21,18,.2);
+      backdrop-filter: blur(10px);
+      font: 500 .78rem "DM Sans", sans-serif;
+      cursor: pointer;
+      transition: all .25s ease;
+    }
+
+    .music-button:hover {
+      background: rgba(226,246,220,.18);
+      transform: translateY(-2px);
+    }
+
+    .music-button span {
+      margin-right: 6px;
+      color: #f3d78d;
+    }
+
+    .youtube-player {
+      position: fixed;
+      left: -220px;
+      bottom: -220px;
+      width: 200px;
+      height: 200px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .letter {
+      position: relative;
+      z-index: 2;
+      width: min(630px, 100%);
+      padding: 48px 60px 37px;
+      border: 1px solid rgba(68,126,96,.25);
+      border-radius: 8px;
+      background: linear-gradient(125deg, rgba(240,255,236,.8), transparent 30%), var(--paper);
+      box-shadow: 0 30px 80px rgba(0,25,22,.38), inset 0 0 70px rgba(164,207,165,.12);
+      animation: arrive 1s cubic-bezier(.17,.84,.38,1) both, float 6.2s ease-in-out 1s infinite;
+    }
+
+    .letter::before {
+      content: "";
+      position: absolute;
+      inset: 12px;
+      border: 1px solid rgba(77,135,100,.2);
+      border-radius: 4px;
+      pointer-events: none;
+    }
+
+    .leaf {
+      position: absolute;
+      z-index: 1;
+      color: rgba(208,241,205,.33);
+      font-family: "Playfair Display", serif;
+      font-size: 3rem;
+      animation: drift 7s ease-in-out infinite;
+    }
+
+    .leaf::before { content: "✦"; }
+
+    .l1 { left: 9%; top: 21%; }
+    .l2 { right: 11%; top: 18%; font-size: 1.8rem; animation-delay: 1.8s; }
+    .l3 { left: 16%; bottom: 13%; font-size: 2.1rem; animation-delay: 3.4s; }
+    .l4 { right: 8%; bottom: 26%; font-size: 1.35rem; animation-delay: 4.5s; }
+
+    .letter-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .eyebrow,
+    .date,
+    .footer-note {
+      margin: 0;
+      font-size: .66rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow { color: #4c8465; font-weight: 600; }
+
+    .date {
+      color: #353e36;
+      letter-spacing: .1em;
+      white-space: nowrap;
+    }
+
+    .message {
+      position: relative;
+      margin-top: 42px;
+      animation: fade-up .85s .45s both;
+    }
+
+    .message p {
+      margin: 0 0 18px;
+      font-size: clamp(.96rem, 2vw, 1.04rem);
+      line-height: 1.85;
+    }
+
+    .message .hello,
+    .closing,
+    .signature {
+      font-family: "Playfair Display", serif;
+    }
+
+    .message .hello {
+      margin-bottom: 24px;
+      color: #35715b;
+      font-size: 1.9rem;
+      font-style: italic;
+    }
+
+    .message .closing {
+      margin: 31px 0 4px;
+      font-size: 1.15rem;
+    }
+
+    .message .signature {
+      margin: 0;
+      color: #3b755d;
+      font-size: 1.7rem;
+      font-style: italic;
+    }
+
+    .divider {
+      margin: 27px 0 13px;
+      color: #b69250;
+      text-align: center;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      display: inline-block;
+      width: 72px;
+      margin: 0 12px;
+      border-top: 1px solid #d8e4ce;
+      vertical-align: middle;
+    }
+
+    .footer-note {
+      color: #3b513b;
+      text-align: center;
+      font-size: .59rem;
+    }
+
+    .hint {
+      position: absolute;
+      z-index: 2;
+      bottom: 29px;
+      margin: 0;
+      color: rgba(239,255,234,.66);
+      font-family: "Playfair Display", serif;
+      font-size: .88rem;
+      font-style: italic;
+      letter-spacing: .04em;
+    }
+
+    @keyframes arrive {
+      from { opacity: 0; transform: translateY(34px) scale(.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes float {
+      50% { transform: translateY(-9px) rotate(.1deg); }
+    }
+
+    @keyframes drift {
+      50% { transform: translateY(-17px) rotate(12deg); opacity: .15; }
+    }
+
+    @media (max-width: 520px) {
+      .scene { padding: 76px 14px 64px; }
+      .letter { padding: 36px 30px 30px; }
+      .letter-top { display: block; }
+      .date { margin-top: 8px; }
+      .message { margin-top: 30px; }
+      .message p { margin-bottom: 15px; line-height: 1.72; }
+      .music-button { top: 15px; right: 14px; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="scene">
+    <span class="leaf l1"></span>
+    <span class="leaf l2"></span>
+    <span class="leaf l3"></span>
+    <span class="leaf l4"></span>
+
+    <iframe
+      class="youtube-player"
+      id="youtubePlayer"
+      title="Background music"
+      src="Haareya Meri Pyaari Bindu 128 Kbps.mp3"
+      allow="autoplay; encrypted-media"
+      aria-hidden="true">
+    </iframe>
+
+    <button class="music-button" id="musicButton" type="button" aria-pressed="true">
+      <span aria-hidden="true">♫</span> Turn sound on🎀
+    </button>
+
+    <section class="letter">
+      <div class="letter-top">
+        <p class="eyebrow">A note from my heart🎀</p>
+        <p class="date">with all my love🎀</p>
+      </div>
+
+      <div class="message">
+        <p class="hello">for my baby (jiyaa),</p>
+
+        <p>Yrr jaikirti first off all i am really really verry sorry yrr.Dekh yrrr humari almost 2.5 months se baat nhi huyi ache se bilkul bhi .I know ki tu bhi preshan hai or mene tujhe uper se bohot preshan kara in dino mene yrr sorry for that💗.</p>
+        <p>And yrr jaikirti mujhe bas ye bolna hai ki sorry mene itni saari galtiya kari . Sorry mene tujhe time se nhi smjhaa sorry mene tujhe bura fell karya i know ki humara time achaa bhi rha hai bohot jada but still mene bohot galtiya kari hai mujhe humesha hi uska regret rha hai or aage bhi rahega💗.</p>
+        <p>Or yrr jaikirti mai bass tere saath jada se jada time spent krna chata thaa us chaker mai bhi bohot galtiya kari mene but ab kaafi time se mai sikh rha thaa and i khow tujhe mene aisa feel nhi karaya but mai sikh rha tha yr but still sorry mai tera painfull moment kab ban gyaa mujhe pta nhi chala yr sorry yrr kannuc❤️ .</p>
+        <p>And yrrr jaikirti tujhe kya btau  ki mai tujhe kitna yaad kr rha hu aaj kall daily sote time tere baare mai sochta hu ki kese mnauu morning mai utke mostly teri photo dekhta hu or sochta hu ki itna chutiyapa kara mene yrr orr yrr jaikirti i know ki mene bohot galat kara like tujhe troumas diye hai but yrr jaikirti beside that i love you sooo much yrrr jaikirti and always gonna love you like always💗 .</p>
+        <p>And i know yrr kannu i do not expect your forgiveness right away. Please take all the time and space you need. I only hope that, someday, you can feel how genuinely sorry I am. or yrr jaikirti bolna to bohot kuch like btana hai tujhe bht kuch but fer kabhi haina kiuki mai tujhe achi koi letter nhi bhej sakta but mai yr letter virtualy likh rha hu dena to hand writen thaa but abhi posible nhi hai but ye bhi hand writen hi hai yrr bebyyyy❤️.</p>
+        <p>Or yrr jaikirti mai tujhe jabar dasti stay nhi karana chata but mai stil pura try ker rha hu kiuki yrr tu mere liye most important persone hai and you are my only friend jo mere liye sabse important hai like mere or bhi dost banege but you are special for me yrr jaikirti 🎀</p> 
+        <p> Bass abhi to yahi bolna hai or tere liye kuch projects bnaye hai maltab mujhe itne ache se nhi ata nut mene pura sikh krr you tube se chat gbt se or instagram se sab jagha se dund kr sikh kr bnaye hai tere liye ye sab kaafi time se bana rha hu humari ladayi se pele se hai ab complete huye hai so dekhio or ek bday k liye bnaungaa tere ek mst saa theeke babyy🎀</p>
+        <p>And jaikirti i promis you that ki no metter how things get hard i will always be ready to make things right and  </p>
+        <p class="closing">With all my heart🎀,</p>
+        <p class="signature">Your kuuri💗♡</p>
+      </div>
+
+      <div class="divider">✦</div>
+      <p class="footer-note">Made with love, especially for kannu🎀</p>
+    </section>
+
+    <p class="hint">a sincere apology, from my heart🎀</p>
+  </main>
+
+  <script>
+    const musicButton = document.getElementById("musicButton");
+    const youtubePlayer = document.getElementById("youtubePlayer");
+
+    let soundOn = true;
+
+    function sendYouTubeCommand(func) {
+      youtubePlayer.contentWindow.postMessage(
+        JSON.stringify({
+          event: "command",
+          func,
+          args: []
+        }),
+        "*"
+      );
+    }
+
+    function turnSoundOn() {
+      sendYouTubeCommand("playVideo");
+      sendYouTubeCommand("unMute");
+
+      soundOn = true;
+      musicButton.innerHTML = '<span aria-hidden="true">♫</span> Turn sound on';
+      musicButton.setAttribute("aria-pressed", "true");
+    }
+
+    function turnSoundOff() {
+      sendYouTubeCommand("mute");
+
+      soundOn = false;
+      musicButton.innerHTML = '<span aria-hidden="true">♫</span> Turn sound off';
+      musicButton.setAttribute("aria-pressed", "false");
+    }
+
+    musicButton.addEventListener("click", () => {
+      soundOn ? turnSoundOff() : turnSoundOn();
+    });
+
+    document.addEventListener("pointerdown", turnSoundOn, { once: true });
+  </script>
+</body>
+</html>
