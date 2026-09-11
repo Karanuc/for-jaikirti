@@ -331,16 +331,16 @@
       sendYouTubeCommand("unMute");
 
       soundOn = true;
-      musicButton.innerHTML = '<span aria-hidden="true">♫</span> Turn sound on🎀';
-      musicButton.setAttribute("aria-pressed", "false");
+      musicButton.innerHTML = '<span aria-hidden="true">♫</span> Turn sound off🎀';
+      musicButton.setAttribute("aria-pressed", "true");
     }
 
     function turnSoundOff() {
       sendYouTubeCommand("mute");
 
       soundOn = false;
-      musicButton.innerHTML = '<span aria-hidden="true">♫</span> Turn sound off🎀';
-      musicButton.setAttribute("aria-pressed", "true");
+      musicButton.innerHTML = '<span aria-hidden="true">♫</span> Turn sound on🎀';
+      musicButton.setAttribute("aria-pressed", "false");
     }
 
     musicButton.addEventListener("click", () => {
