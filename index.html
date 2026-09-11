@@ -1,10 +1,9 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>I am sorry jaikirti ♡</title>
+  <title>I am sorry ♡</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -87,16 +86,6 @@
     .music-button span {
       margin-right: 6px;
       color: #f3d78d;
-    }
-
-    .youtube-player {
-      position: fixed;
-      left: -220px;
-      bottom: -220px;
-      width: 200px;
-      height: 200px;
-      opacity: 0;
-      pointer-events: none;
     }
 
     .letter {
@@ -268,16 +257,13 @@
     <span class="leaf l3"></span>
     <span class="leaf l4"></span>
 
-    <iframe
-      class="youtube-player"
-      id="youtubePlayer"
-      title="Background music"
-      src="Haareya Meri Pyaari Bindu 128 Kbps.mp3"
-      allow="autoplay; encrypted-media"
-      aria-hidden="true">
-    </iframe>
+    <!-- Audio Player -->
+    <audio id="audioPlayer" loop preload="auto">
+      <source src="Haareya Meri Pyaari Bindu 128 Kbps.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
 
-    <button class="music-button" id="musicButton" type="button" aria-pressed="true">
+    <button class="music-button" id="musicButton" type="button" aria-pressed="false">
       <span aria-hidden="true">♫</span> Turn sound on🎀
     </button>
 
@@ -311,43 +297,28 @@
 
   <script>
     const musicButton = document.getElementById("musicButton");
-    const youtubePlayer = document.getElementById("youtubePlayer");
+    const audioPlayer = document.getElementById("audioPlayer");
 
-    let soundOn = true;
+    let soundOn = false;
 
-    function sendYouTubeCommand(func) {
-      youtubePlayer.contentWindow.postMessage(
-        JSON.stringify({
-          event: "command",
-          func,
-          args: []
-        }),
-        "*"
-      );
+    function toggleSound() {
+      if (soundOn) {
+        audioPlayer.pause();
+        soundOn = false;
+        musicButton.innerHTML = '<span aria-hidden="true">♫</span> Turn sound on🎀';
+        musicButton.setAttribute("aria-pressed", "false");
+      } else {
+        audioPlayer.play().then(() => {
+          soundOn = true;
+          musicButton.innerHTML = '<span aria-hidden="true">♫</span> Turn sound off🎀';
+          musicButton.setAttribute("aria-pressed", "true");
+        }).catch(err => {
+          console.error("Playback error:", err);
+        });
+      }
     }
 
-    function turnSoundOn() {
-      sendYouTubeCommand("playVideo");
-      sendYouTubeCommand("unMute");
-
-      soundOn = true;
-      musicButton.innerHTML = '<span aria-hidden="true">♫</span> turn sound off🎀';
-      musicButton.setAttribute("aria-pressed", "true");
-    }
-
-    function turnSoundOff() {
-      sendYouTubeCommand("mute");
-
-      soundOn = false;
-      musicButton.innerHTML = '<span aria-hidden="true">♫</span> Turn sound on🎀';
-      musicButton.setAttribute("aria-pressed", "false");
-    }
-
-    musicButton.addEventListener("click", () => {
-      soundOn ? turnSoundOff() : turnSoundOn();
-    });
-
-    document.addEventListener("pointerdown", turnSoundOn, { once: true });
+    musicButton.addEventListener("click", toggleSound);
   </script>
 </body>
 </html>
